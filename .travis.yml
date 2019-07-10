@@ -3,8 +3,6 @@ dist: xenial
 language: cpp
 cache: ccache
 before_cache:
-git:
-  depth: false
 compiler: clang
 services:
 - docker
