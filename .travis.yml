@@ -1,8 +1,8 @@
 os: linux
 dist: xenial
 language: cpp
-# cache: ccache
-# before_cache:
+cache: ccache
+before_cache:
 git:
   depth: false
 compiler: clang
@@ -15,6 +15,8 @@ before_install: |
   if [[ "$(uname)" == Darwin ]]; then top -l 1 -s 0 | grep PhysMem; else vmstat -sSM | grep -i 'memory'; fi
   df -h
   echo '====================='
+  git status
+  git rev-parse HEAD
   ls -laht .
   pwd
 # DOCKER
