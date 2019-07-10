@@ -28,7 +28,7 @@ before_install: |
 # - docker tag eos-dev eosio/producer:ci-ubuntu-18.04 # temporary workarond while awaiting permissions to docker.io/eosio/ci
 # - docker push eosio/producer:ci-ubuntu-18.04
 # EOSIO
-ls -laht
+  ls -laht
 script:
 - echo '##### CHECKPOINT 2'
 - docker pull eosio/producer:ci-ubuntu-18.04
