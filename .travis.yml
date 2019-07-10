@@ -1,6 +1,8 @@
 os: linux
 dist: xenial
 language: cpp
+cache: ccache
+before_cache:
 compiler: clang
 services:
 - docker
