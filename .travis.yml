@@ -5,7 +5,6 @@ language: cpp
 # before_cache:
 git:
   depth: false
-  clone: false
 compiler: clang
 services:
 - docker
