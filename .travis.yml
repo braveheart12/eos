@@ -31,10 +31,9 @@ script: |
   echo '##### CHECKPOINT 2'
   docker pull eosio/producer:ci-ubuntu-18.04
   docker run --rm -v $(pwd):/eos -v $HOME/.ccache:/usr/lib/ccache -e CCACHE_DIR=/usr/lib/ccache eosio/producer:ci-ubuntu-18.04 bash -c "
+  export PATH=/usr/lib/ccache:\$PATH;
   apt-get update; apt-get install -y ccache;  
   ccache -s;
-  echo \$PATH;
-  /usr/sbin/update-ccache-symlinks;
   mkdir /eos/build && cd /eos/build && cmake -DCMAKE_BUILD_TYPE='Release' -DCORE_SYMBOL_NAME='SYS' -DOPENSSL_ROOT_DIR='/usr/include/openssl' -DBUILD_MONGO_DB_PLUGIN=true /eos && make -j$(nproc)"
 after_success:
 - echo '##### CHECKPOINT 3'
