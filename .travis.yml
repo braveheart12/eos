@@ -2,12 +2,13 @@ os: linux
 dist: xenial
 language: cpp
 git:
+  # Depth is needed to prevent git describe failures in appbase
   depth: false
 compiler: clang
 services:
 - docker
 cache: ccache
-before_cache:
+# before_cache: https://docs.travis-ci.com/user/caching/#before_cache-phase
 before_install: |
   echo '##### CHECKPOINT 1'
   echo '===== RESOURCES ====='
@@ -31,9 +32,7 @@ script: |
   echo '##### CHECKPOINT 2'
   docker pull eosio/producer:ci-ubuntu-18.04
   docker run --rm -v $(pwd):/eos -v $HOME/.ccache:/usr/lib/ccache -e CCACHE_DIR=/usr/lib/ccache eosio/producer:ci-ubuntu-18.04 bash -c "
-  export PATH=/usr/lib/ccache:\$PATH;
-  apt-get update; apt-get install -y ccache;  
-  ccache -s;
+  export PATH=/usr/lib/ccache:\$PATH && apt-get update; apt-get install -y ccache && ccache -s;
   mkdir /eos/build && cd /eos/build && cmake -DCMAKE_BUILD_TYPE='Release' -DCORE_SYMBOL_NAME='SYS' -DOPENSSL_ROOT_DIR='/usr/include/openssl' -DBUILD_MONGO_DB_PLUGIN=true /eos && make -j$(nproc)"
 after_success:
 - echo '##### CHECKPOINT 3'
