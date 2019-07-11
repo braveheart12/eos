@@ -31,6 +31,12 @@ set(VERSION_MINOR 8)
 set(VERSION_PATCH 0)
 #set(VERSION_SUFFIX develop)
 
+find_program(CCACHE_FOUND ccache)
+if (CCACHE_FOUND)
+  message(STATUS "Using ccache")
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+endif()
+
 if(VERSION_SUFFIX)
     set(VERSION_FULL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_SUFFIX}")
 else()
