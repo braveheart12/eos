@@ -1,13 +1,13 @@
 os: linux
 dist: xenial
 language: cpp
-cache: ccache
-before_cache:
 git:
   depth: false
 compiler: clang
 services:
 - docker
+cache: ccache
+before_cache:
 before_install: |
   echo '##### CHECKPOINT 1'
   echo '===== RESOURCES ====='
@@ -28,11 +28,11 @@ before_install: |
 # - docker push eosio/producer:ci-ubuntu-18.04
 # EOSIO
 script: |
-echo '##### CHECKPOINT 2'
-docker pull eosio/producer:ci-ubuntu-18.04
-docker run --rm -v $(pwd):/eos -v $HOME/.ccache:/opt/ccache -e CCACHE_DIR=/opt/ccache eosio/producer:ci-ubuntu-18.04 bash -c "
-export PATH=$PATH:/opt/ccache; echo $PATH;
-ccache -s;
-mkdir /eos/build && cd /eos/build && cmake -DCMAKE_BUILD_TYPE='Release' -DCORE_SYMBOL_NAME='SYS' -DOPENSSL_ROOT_DIR='/usr/include/openssl' -DBUILD_MONGO_DB_PLUGIN=true /eos && make -j$(nproc)"
+  echo '##### CHECKPOINT 2'
+  docker pull eosio/producer:ci-ubuntu-18.04
+  docker run --rm -v $(pwd):/eos -v $HOME/.ccache:/opt/ccache -e CCACHE_DIR=/opt/ccache eosio/producer:ci-ubuntu-18.04 bash -c "
+  export PATH=$PATH:/opt/ccache; echo $PATH;
+  ccache -s;
+  mkdir /eos/build && cd /eos/build && cmake -DCMAKE_BUILD_TYPE='Release' -DCORE_SYMBOL_NAME='SYS' -DOPENSSL_ROOT_DIR='/usr/include/openssl' -DBUILD_MONGO_DB_PLUGIN=true /eos && make -j$(nproc)"
 after_success:
 - echo '##### CHECKPOINT 3'
